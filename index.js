@@ -1,8 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 
-function Parent() {
-    return "hiiiiiiiiiiiie"
-}
+import Pomodoro from './components/Pomodoro'
 
 ReactDOM.render(<Parent />, document.getElementById('app'))
