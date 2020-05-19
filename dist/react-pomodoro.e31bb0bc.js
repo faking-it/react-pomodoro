@@ -28285,37 +28285,127 @@ if ("development" === 'production') {
 } else {
   module.exports = require('./cjs/react-dom.development.js');
 }
-},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"components/Pomodoro.js":[function(require,module,exports) {
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-
-var _react = _interopRequireDefault(require("react"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function Parent() {
-  return "hiiiiiiiiiiiie";
-}
-
-var _default = Pomodoro;
-exports.default = _default;
-},{"react":"node_modules/react/index.js"}],"index.js":[function(require,module,exports) {
+},{"./cjs/react-dom.development.js":"node_modules/react-dom/cjs/react-dom.development.js"}],"index.js":[function(require,module,exports) {
 "use strict";
 
 var _react = _interopRequireDefault(require("react"));
 
 var _reactDom = _interopRequireDefault(require("react-dom"));
 
-var _Pomodoro = _interopRequireDefault(require("./components/Pomodoro"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+var Parent = function Parent() {
+  function chronoRaise() {
+    var timer = document.getElementById("time").innerHTML.split(':');
+    var min = timer[0];
+    min++;
+
+    if (min < 10) {
+      min = '0' + min;
+    }
+
+    document.getElementById("time").innerHTML = min + ':00';
+  }
+
+  function chronoDecrease() {
+    var timer = document.getElementById("time").innerHTML.split(':');
+    var min = timer[0];
+
+    if (min > 0) {
+      min--;
+
+      if (min < 10) {
+        min = '0' + min;
+      }
+
+      document.getElementById("time").innerHTML = min + ':00';
+    }
+  }
+
+  function chrono(min, sec) {
+    if (sec == 0) {
+      if (min == 0) {
+        clearTimeout(chronoID);
+      } else {
+        min--;
+        sec = 59;
+
+        if (min < 10) {
+          min = '0' + min;
+        }
+
+        document.getElementById("time").innerHTML = min + ':' + sec;
+      }
+    } else {
+      sec--;
+
+      if (sec < 10) {
+        sec = '0' + sec;
+      }
+
+      document.getElementById("time").innerHTML = min + ':' + sec;
+    }
+
+    var chronoID = setTimeout(function () {
+      chrono(min, sec);
+    }, 1000);
+    return function () {
+      return clearTimeout(chronoID);
+    };
+  }
+
+  function chronoStart() {
+    document.chrono.startstop.value = "Pause";
+    document.chrono.startstop.onClick = {
+      chronoStop: chronoStop
+    };
+    var timer = document.getElementById("time").innerHTML.split(':');
+    var min = timer[0];
+    var sec = timer[1];
+    chrono(min, sec);
+  }
+
+  function chronoStop() {
+    document.chrono.startstop.value = "Démarrer";
+    document.chrono.startstop.onclick = {
+      chronoStart: chronoStart
+    };
+    clearTimeout();
+  }
+
+  function chronoRestart() {
+    document.getElementById("time").innerHTML = '00:00';
+  }
+
+  return /*#__PURE__*/_react.default.createElement("div", null, /*#__PURE__*/_react.default.createElement("div", {
+    id: "time"
+  }, "00:00"), /*#__PURE__*/_react.default.createElement("form", {
+    name: "chrono"
+  }, /*#__PURE__*/_react.default.createElement("input", {
+    type: "button",
+    name: "plus",
+    value: "+",
+    onClick: chronoRaise
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "button",
+    name: "minus",
+    value: "-",
+    onClick: chronoDecrease
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "button",
+    name: "startstop",
+    value: "D\xE9marrer",
+    onClick: chronoStart
+  }), /*#__PURE__*/_react.default.createElement("input", {
+    type: "button",
+    name: "reset",
+    value: "R\xE9initialiser",
+    onClick: chronoRestart
+  })));
+};
+
 _reactDom.default.render( /*#__PURE__*/_react.default.createElement(Parent, null), document.getElementById('app'));
-},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js","./components/Pomodoro":"components/Pomodoro.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+},{"react":"node_modules/react/index.js","react-dom":"node_modules/react-dom/index.js"}],"../../../AppData/Roaming/npm/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
